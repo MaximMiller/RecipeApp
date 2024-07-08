@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="backgroundMainLayout">#F4FAFF</color>
+    <color name="textViewColor">#FFFFFF</color>
+    <color name="btnFavorite">#E13E3E</color>
+    <color name="btnCategories">#525DC0</color>
+
 </resources>
