@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_style_title14">14sp</dimen>
+    <dimen name="padding_vertical_nav_button">10dp</dimen>
+    <dimen name="padding_horizontal_nav_button">20dp</dimen>
+    <dimen name="corner_radius_nav_button">8dp</dimen>
+    <dimen name="margin_horizontal_ll_nav_button">16dp</dimen>
+    <dimen name="margin_bottom_ll_nav_button">8dp</dimen>
+    <dimen name="margin_end_btn_category">2dp</dimen>
+    <dimen name="margin_start_btn_favorite">2dp</dimen>
+</resources>
