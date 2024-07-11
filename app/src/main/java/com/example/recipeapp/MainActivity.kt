@@ -2,6 +2,7 @@ package com.example.recipeapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import com.example.recipeapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,10 +17,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .add(R.id.mainContainer, CategoriesListFragment())
-                .commit()
-
+            supportFragmentManager.commit {
+                add(R.id.mainContainer,CategoriesListFragment())
+            }
         }
     }
 }
