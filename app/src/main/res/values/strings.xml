@@ -2,4 +2,5 @@
     <string name="app_name">RecipeApp</string>
     <string name="btn_favorite">Избранное</string>
     <string name="btn_categories">Категории</string>
+    <string name="tv_title_fragment">Фрагмент списка категорий</string>
 </resources>
