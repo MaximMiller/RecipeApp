@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 add<CategoriesListFragment>(R.id.mainContainer)
+                setReorderingAllowed(true)
+                addToBackStack(null)
             }
         }
 
@@ -28,7 +30,14 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.commit {
                 replace<FavoritesFragment>(R.id.mainContainer)
                 setReorderingAllowed(true)
-                addToBackStack("name")
+                addToBackStack(null)
+            }
+        }
+        binding.btnCategories.setOnClickListener{
+            supportFragmentManager.commit {
+                replace<CategoriesListFragment>(R.id.mainContainer)
+                setReorderingAllowed(true)
+                addToBackStack(null)
             }
         }
     }
