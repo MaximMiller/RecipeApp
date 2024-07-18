@@ -4,4 +4,5 @@
     <string name="btn_categories">Категории</string>
     <string name="tv_title_fragment">Фрагмент списка категорий</string>
     <string name="title_favorite_fragment">Фрагмент списка избранных</string>
+    <string name="tv_heading">Кaтегории</string>
 </resources>

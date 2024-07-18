@@ -4,4 +4,5 @@
     <string name="btn_categories">Categories</string>
     <string name="tv_title_fragment">CategoriesListFragment</string>
     <string name="title_favorite_fragment">FavoritesFragment</string>
+    <string name="tv_heading">Categories</string>
 </resources>

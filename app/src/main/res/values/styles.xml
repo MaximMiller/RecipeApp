@@ -14,4 +14,11 @@
         <item name="android:paddingHorizontal">@dimen/padding_horizontal_nav_button</item>
         <item name="cornerRadius">@dimen/corner_radius_nav_button</item>
     </style>
+
+    <style name="StyleTextViewTitleHeading" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/montserrat_alternates_semi_bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/textTitleHeading</item>
+    </style>
 </resources>
