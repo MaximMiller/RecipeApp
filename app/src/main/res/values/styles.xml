@@ -17,7 +17,7 @@
 
     <style name="StyleTextViewTitleHeading" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/montserrat_alternates_semi_bold</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">@dimen/text_size_title_heading_fragment_list_categories</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/textTitleHeading</item>
     </style>

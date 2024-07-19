@@ -5,4 +5,5 @@
     <string name="tv_title_fragment">CategoriesListFragment</string>
     <string name="title_favorite_fragment">FavoritesFragment</string>
     <string name="tv_heading">Categories</string>
+    <string name="iv_screenshot_of_the_categories">This is a screenshot of the categories</string>
 </resources>

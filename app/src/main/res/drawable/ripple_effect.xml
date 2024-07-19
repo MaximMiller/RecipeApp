@@ -3,6 +3,9 @@
     android:color="@color/item_categoryTransparentBlack">
     <item
         android:id="@android:id/mask"
-        android:drawable="@color/black"/>
+        android:clickable="true"
+        android:drawable="@color/black"
+        android:focusable="true"
+        android:foreground="?selectableItemBackground" />
 
 </ripple>
