@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_cl_heading_fragment_list_categories">
+        android:layout_height="@dimen/height_large">
 
         <ImageView
             android:id="@+id/iv_heading"
@@ -27,12 +27,12 @@
             android:id="@+id/tv_heading"
             style="@style/StyleTextViewTitleHeading"
             android:layout_width="wrap_content"
-            android:padding="@dimen/tv_heading_padding_fragment_list_categories"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/tv_heading_margin_start_fragment_list_categories"
-            android:layout_marginBottom="@dimen/tv_heading_margin_bottom_fragment_list_categories"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_large"
             android:background="@drawable/shape_tv_heading"
             android:gravity="center"
+            android:padding="@dimen/padding_small"
             android:text="@string/tv_heading"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -42,11 +42,11 @@
         android:id="@+id/rvCategories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:itemCount="6"
-        tools:listitem="@layout/item_category"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:layout_marginVertical="@dimen/margin_medium"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        android:layout_marginVertical="@dimen/rv_margin_vertical_fragment_list_categories"
-        android:layout_marginHorizontal="@dimen/rv_margin_horizontal_fragment_list_categories"/>
+        tools:itemCount="6"
+        tools:listitem="@layout/item_category" />
 
 </LinearLayout>

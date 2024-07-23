@@ -2,8 +2,6 @@
     <string name="app_name">RecipeApp</string>
     <string name="btn_favorite">Избранное</string>
     <string name="btn_categories">Категории</string>
-    <string name="tv_title_fragment">Фрагмент списка категорий</string>
-    <string name="title_favorite_fragment">Фрагмент списка избранных</string>
     <string name="tv_heading">Кaтегории</string>
-    <string name="iv_screenshot_of_the_categories">Это изображение для категории</string>
+    <string name="iv_screenshot_of_the_categories">Это изображение для категории %1$s</string>
 </resources>
