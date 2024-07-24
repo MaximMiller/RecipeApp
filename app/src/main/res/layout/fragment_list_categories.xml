@@ -15,7 +15,7 @@
             android:id="@+id/iv_heading"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:contentDescription="@string/iv_screenshot_of_the_categories"
+            android:contentDescription="@string/iv_image_of_the_categories"
             android:scaleType="centerCrop"
             android:src="@drawable/bcg_categories"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -33,7 +33,7 @@
             android:background="@drawable/shape_tv_heading"
             android:gravity="center"
             android:padding="@dimen/padding_small"
-            android:text="@string/tv_heading"
+            android:text="@string/categories"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
