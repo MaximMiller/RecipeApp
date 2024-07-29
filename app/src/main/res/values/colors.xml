@@ -7,6 +7,6 @@
     <color name="btnCategories">#525DC0</color>
     <color name="textTitleHeading">#5F3678</color>
     <color name="textDescriptionItemCategory">#666666</color>
-    <color name="item_categoryTransparentBlack">#40000000</color>
+    <color name="itemCategoryTransparentBlack">#40000000</color>
 
 </resources>

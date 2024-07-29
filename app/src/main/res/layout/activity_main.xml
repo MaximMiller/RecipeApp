@@ -27,7 +27,7 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:layout_weight="1"
             android:backgroundTint="@color/btnCategories"
-            android:text="@string/categories" />
+            android:text="@string/title_category" />
 
         <Button
             android:id="@+id/btnFavorite"
@@ -37,7 +37,7 @@
             android:layout_marginStart="@dimen/margin_small"
             android:layout_weight="1"
             android:backgroundTint="@color/btnFavorite"
-            android:text="@string/btn_favorite"
+            android:text="@string/title_favorite"
             app:icon="@drawable/ic_favorite"
             app:iconGravity="end" />
 

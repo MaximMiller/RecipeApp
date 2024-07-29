@@ -33,7 +33,7 @@
             android:background="@drawable/shape_tv_heading"
             android:gravity="center"
             android:padding="@dimen/padding_small"
-            android:text="@string/categories"
+            android:text="@string/title_category"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
