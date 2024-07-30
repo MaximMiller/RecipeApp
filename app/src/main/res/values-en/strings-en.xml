@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">RecipeApp</string>
-    <string name="btn_favorite">Favorites</string>
-    <string name="btn_categories">Categories</string>
-    <string name="tv_title_fragment">CategoriesListFragment</string>
-    <string name="title_favorite_fragment">FavoritesFragment</string>
-</resources>

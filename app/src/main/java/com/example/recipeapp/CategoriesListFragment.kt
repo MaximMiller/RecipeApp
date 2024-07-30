@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.recipeapp.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment() {
+    private var currentCategory: String = "Default Category"
     private var _binding: FragmentListCategoriesBinding? = null
     private val binding
         get() = _binding
@@ -20,6 +21,8 @@ class CategoriesListFragment : Fragment() {
     ): View {
         _binding = FragmentListCategoriesBinding.inflate(inflater, container, false)
         val view = binding.root
+        val contentDescription = getString(R.string.iv_image_of_the_categories, currentCategory)
+        binding.ivHeading.contentDescription = contentDescription
         return view
     }
 

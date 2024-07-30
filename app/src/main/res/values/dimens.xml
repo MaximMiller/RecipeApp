@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="text_size_style_title14">14sp</dimen>
-    <dimen name="padding_vertical_nav_button">10dp</dimen>
-    <dimen name="padding_horizontal_nav_button">20dp</dimen>
-    <dimen name="corner_radius_nav_button">8dp</dimen>
-    <dimen name="margin_horizontal_ll_nav_button">16dp</dimen>
-    <dimen name="margin_bottom_ll_nav_button">8dp</dimen>
-    <dimen name="margin_end_btn_category">2dp</dimen>
-    <dimen name="margin_start_btn_favorite">2dp</dimen>
+    <!--text_size -->
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
+
+    <!--padding -->
+    <dimen name="padding_small">10dp</dimen>
+    <dimen name="padding_medium">20dp</dimen>
+
+    <!--margin -->
+    <dimen name="margin_small">2dp</dimen>
+    <dimen name="margin_medium">8dp</dimen>
+    <dimen name="margin_large">16dp</dimen>
+
+    <!-- sizes-->
+    <dimen name="height_large">224dp</dimen>
 </resources>

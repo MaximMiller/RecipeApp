@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cvItemCategory"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/margin_medium"
+    android:layout_marginVertical="@dimen/margin_medium"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?selectableItemBackground"
+    app:cardCornerRadius="@dimen/margin_medium"
+    app:cardForegroundColor="@drawable/ripple_effect"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:contentDescription="@string/iv_image_of_the_categories"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/iv_burger" />
+
+        <TextView
+            style="@style/TextViewTitleHeadingItems"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            tools:text="Бургеры" />
+
+        <TextView
+            style="@style/TextViewDescriptionItemCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            tools:text="Рецепты всех популярных видов бургеров" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
