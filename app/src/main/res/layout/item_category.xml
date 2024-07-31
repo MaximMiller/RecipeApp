@@ -25,6 +25,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/ivCategoryImage"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
@@ -34,6 +35,7 @@
             tools:src="@drawable/iv_burger" />
 
         <TextView
+            android:id="@+id/tvHeadingTitleCategory"
             style="@style/TextViewTitleHeadingItems"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,6 +45,7 @@
             tools:text="Бургеры" />
 
         <TextView
+            android:id="@+id/tvHeadingDescriptionCategory"
             style="@style/TextViewDescriptionItemCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
