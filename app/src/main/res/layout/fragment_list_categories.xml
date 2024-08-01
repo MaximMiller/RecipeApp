@@ -12,7 +12,7 @@
         android:layout_height="@dimen/height_large">
 
         <ImageView
-            android:id="@+id/iv_heading"
+            android:id="@+id/ivHeading"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/iv_image_of_the_categories"
@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_heading"
+            android:id="@+id/tvHeading"
             style="@style/StyleTextViewTitleHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
