@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.recipeapp.databinding.FragmentListCategoriesBinding
@@ -49,11 +48,6 @@ class CategoriesListFragment : Fragment() {
     }
 
     private fun openRecipesByCategoryId() {
-        parentFragmentManager.commit {
-            add<RecipesListFragment>(R.id.mainContainer)
-            setReorderingAllowed(true)
-            addToBackStack(null)
-        }
         parentFragmentManager.commit {
             replace<RecipesListFragment>(R.id.mainContainer)
             setReorderingAllowed(true)
