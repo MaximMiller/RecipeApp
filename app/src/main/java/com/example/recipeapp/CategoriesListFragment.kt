@@ -8,6 +8,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import com.example.recipeapp.Constants.ARG_CATEGORY_ID
+import com.example.recipeapp.Constants.ARG_CATEGORY_IMAGE_URI
+import com.example.recipeapp.Constants.ARG_CATEGORY_NAME
 import com.example.recipeapp.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment() {
@@ -17,11 +20,7 @@ class CategoriesListFragment : Fragment() {
         get() = _binding
             ?: throw IllegalAccessException("Binding for FragmentListCategoriesBinding most not be null")
 
-    companion object {
-        const val ARG_CATEGORY_ID = "categoryId"
-        const val ARG_CATEGORY_NAME = "categoryName"
-        const val ARG_CATEGORY_IMAGE_URI = "categoryImageUrl"
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,8 +54,9 @@ class CategoriesListFragment : Fragment() {
     }
 
     private fun openRecipesByCategoryId(categoryId: Int) {
-        val categoryName = STUB.getCategories().find { it.id == categoryId }?.title
-        val categoryImageUrl = STUB.getCategories().find { it.id == categoryId }?.imageUrl
+        val category = STUB.getCategories().find { it.id == categoryId }
+        val categoryName = category?.title
+        val categoryImageUrl = category?.imageUrl
         val bundle = bundleOf(
             ARG_CATEGORY_ID to categoryId,
             ARG_CATEGORY_NAME to categoryName,

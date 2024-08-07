@@ -31,27 +31,35 @@ class RecipesListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        categoryId = requireArguments().getInt(CategoriesListFragment.ARG_CATEGORY_ID)
-        categoryName = requireArguments().getString(CategoriesListFragment.ARG_CATEGORY_NAME)
-        categoryImageUrl =
-            requireArguments().getString(CategoriesListFragment.ARG_CATEGORY_IMAGE_URI)
-        binding.tvHeading.text = categoryName
-        var inputStream: InputStream? = null
-        try {
-            inputStream =
-                categoryImageUrl?.let { view.context?.assets?.open(it) }
-            val drawable = Drawable.createFromStream(inputStream, null)
-            binding.ivHeading.setImageDrawable(drawable)
-        } catch (e: IOException) {
-            Log.e("AssetsHelper", "Error loading asset file", e)
-        } finally {
-            inputStream?.close()
-        }
-
+        initBundleData()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initBundleData() {
+         arguments?.let { argument ->
+            categoryId = argument.getInt(Constants.ARG_CATEGORY_ID)
+            categoryName = argument.getString(Constants.ARG_CATEGORY_NAME) ?: ""
+            categoryImageUrl =
+                argument.getString(Constants.ARG_CATEGORY_IMAGE_URI) ?: ""
+
+            binding.tvHeading.text = categoryName
+            var inputStream: InputStream? = null
+            try {
+                inputStream =
+                    categoryImageUrl?.let { view?.context?.assets?.open(it) }
+                val drawable = Drawable.createFromStream(inputStream, null)
+                binding.ivHeading.setImageDrawable(drawable)
+            } catch (e: IOException) {
+                Log.e("AssetsHelper", "Error loading asset file", e)
+            } finally {
+                inputStream?.close()
+            }
+        } ?: run {
+            Log.e("BundleError", "Arguments are null")
+        }
     }
 }
