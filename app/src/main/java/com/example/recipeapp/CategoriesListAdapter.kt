@@ -17,7 +17,7 @@ class CategoriesListAdapter(
     private val dataSet: List<Category>,
 ) : RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
     fun interface OnItemClickListener {
-        fun onItemClick()
+        fun onItemClick(categoryId: Int)
     }
 
     private var itemClickListener: OnItemClickListener? = null
@@ -46,7 +46,8 @@ class CategoriesListAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.cvItemCategory.setOnClickListener { itemClickListener?.onItemClick() }
+        val categoryId = dataSet[position].id
+        viewHolder.cvItemCategory.setOnClickListener { itemClickListener?.onItemClick(categoryId) }
         viewHolder.tvHeadingDescriptionCategory.text = dataSet[position].description
         viewHolder.tvHeadingTitleCategory.text = dataSet[position].title
         var inputStream: InputStream? = null
