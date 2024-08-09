@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import com.example.recipeapp.databinding.FragmentListRecipesBinding
 import java.io.IOException
 import java.io.InputStream
@@ -32,6 +34,7 @@ class RecipesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initBundleData()
+        initRecycler()
     }
 
     override fun onDestroyView() {
@@ -40,7 +43,7 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun initBundleData() {
-         arguments?.let { argument ->
+        arguments?.let { argument ->
             categoryId = argument.getInt(Constants.ARG_CATEGORY_ID)
             categoryName = argument.getString(Constants.ARG_CATEGORY_NAME) ?: ""
             categoryImageUrl =
@@ -62,4 +65,31 @@ class RecipesListFragment : Fragment() {
             Log.e("BundleError", "Arguments are null")
         }
     }
+
+    private fun initRecycler() {
+        categoryId?.let { idCategory ->
+            val adapter = RecipesListAdapter(STUB.getRecipesByCategoryId(idCategory))
+            binding.rvRecipesBurgers.adapter = adapter
+            adapter.setOnClickListener(object : RecipesListAdapter.OnItemClickListener {
+                override fun onItemClick(recipesId: Int) {
+                    openRecipeByRecipeId(recipesId)
+                }
+            })
+        } ?: run {
+            Log.e("RecyclerError", "Category ID is null")
+        }
+    }
+
+    private fun openRecipeByRecipeId(recipesId: Int) {
+
+        parentFragmentManager.commit {
+            replace<RecipeFragment>(R.id.mainContainer)
+            setReorderingAllowed(true)
+            addToBackStack(null)
+        }
+    }
+
+
 }
+
+
