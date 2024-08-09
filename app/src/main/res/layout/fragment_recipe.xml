@@ -35,18 +35,9 @@
             android:padding="@dimen/padding_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="Бургеры" />
+            tools:text="Классический гамбургер" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRecipesBurgers"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/margin_medium"
-        android:layout_marginVertical="@dimen/margin_medium"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="1"
-        tools:itemCount="8"
-        tools:listitem="@layout/item_recipes" />
+
 
 </LinearLayout>
