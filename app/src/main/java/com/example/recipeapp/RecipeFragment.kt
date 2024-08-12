@@ -1,6 +1,8 @@
 package com.example.recipeapp
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,8 +26,26 @@ class RecipeFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initParcelable()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initParcelable() {
+        val recipe: Recipe? = if (Build.VERSION.SDK_INT >= 33) {
+            arguments?.getParcelable("arg_recipe_data", Recipe::class.java)
+        } else {
+            arguments?.getParcelable("arg_recipe_data")
+        }
+        recipe?.let {
+            binding.tvHeading.text = it.title
+
+        } ?: run {
+            Log.e("RecipeNotFound", "Recipe object not found")
+        }
     }
 }
