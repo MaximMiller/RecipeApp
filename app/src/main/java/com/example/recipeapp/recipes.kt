@@ -271,4 +271,8 @@ object STUB {
         return if (categoryId == 0) burgerRecipes
         else listOf()
     }
+
+    fun getRecipeById(recipesId: Int): Recipe? {
+        return burgerRecipes.find { it.id == recipesId }
+    }
 }

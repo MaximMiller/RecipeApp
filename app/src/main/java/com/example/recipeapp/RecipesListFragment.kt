@@ -6,9 +6,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import com.example.recipeapp.Constants.ARG_RECIPE_DATA
 import com.example.recipeapp.databinding.FragmentListRecipesBinding
 import java.io.IOException
 import java.io.InputStream
@@ -81,14 +83,16 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun openRecipeByRecipeId(recipesId: Int) {
-
+        val recipeData = STUB.getRecipeById(recipesId)
+        val bundle = bundleOf(
+            ARG_RECIPE_DATA to recipeData,
+        )
         parentFragmentManager.commit {
-            replace<RecipeFragment>(R.id.mainContainer)
+            replace<RecipeFragment>(R.id.mainContainer, args = bundle)
             setReorderingAllowed(true)
             addToBackStack(null)
         }
     }
-
 
 }
 
