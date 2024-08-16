@@ -3,4 +3,7 @@
     <string name="title_favorite">Избранное</string>
     <string name="title_category">Категории</string>
     <string name="iv_image_of_the_categories">Это изображение для категории %s</string>
+    <string name="title_section_ingredients">Ингредиенты</string>
+    <string name="title_portion">Порции:</string>
+    <string name="title_section_cooking_method">Способ приготовления</string>
 </resources>

@@ -7,7 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.recipeapp.databinding.FragmentRecipeBinding
+import com.google.android.material.divider.MaterialDividerItemDecoration
 
 
 class RecipeFragment : Fragment() {
@@ -27,7 +30,7 @@ class RecipeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initParcelable()
+        initRecycler()
     }
 
     override fun onDestroyView() {
@@ -35,17 +38,44 @@ class RecipeFragment : Fragment() {
         _binding = null
     }
 
-    private fun initParcelable() {
+    private fun initRecycler() {
         val recipe: Recipe? = if (Build.VERSION.SDK_INT >= 33) {
             arguments?.getParcelable("arg_recipe_data", Recipe::class.java)
         } else {
             arguments?.getParcelable("arg_recipe_data")
         }
         recipe?.let {
-            binding.tvHeading.text = it.title
-
+            val listIngredients = it.ingredients
+            val ingredientsAdapter = IngredientsAdapter(listIngredients)
+            binding.rvIngredients.adapter = ingredientsAdapter
+            val listMethod = it.method
+            val methodAdapter = MethodAdapter(listMethod)
+            binding.rvMethod.adapter = methodAdapter
+            initUI(it)
         } ?: run {
             Log.e("RecipeNotFound", "Recipe object not found")
         }
+    }
+
+    private fun initUI(it: Recipe) {
+        binding.tvHeading.text = it.title
+        Glide.with(this)
+            .load("file:///android_asset/${it.imageUrl}")
+            .into(binding.ivHeading)
+        val rvIngredients = binding.rvIngredients
+        val rvIngredientsItemDecoration = MaterialDividerItemDecoration(
+            requireContext(),
+            LinearLayoutManager.VERTICAL
+        )
+        rvIngredientsItemDecoration.isLastItemDecorated = false
+        rvIngredients.addItemDecoration(rvIngredientsItemDecoration)
+
+        val rvMethod = binding.rvMethod
+        val rvMethodItemDecoration = MaterialDividerItemDecoration(
+            requireContext(),
+            LinearLayoutManager.VERTICAL
+        )
+        rvMethodItemDecoration.isLastItemDecorated = false
+        rvMethod.addItemDecoration(rvMethodItemDecoration)
     }
 }
