@@ -11,6 +11,7 @@ class MethodAdapter(
 ) : RecyclerView.Adapter<MethodAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemMethodBinding.bind(itemView)
+        val tvNumberMethod = binding.tvNumberMethod
         val tvDescriptionMethod = binding.tvDescriptionMethod
 
     }
@@ -25,6 +26,8 @@ class MethodAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val index = "${position + 1}."
+        holder.tvNumberMethod.text = index
         holder.tvDescriptionMethod.text = dataSet[position]
     }
 }

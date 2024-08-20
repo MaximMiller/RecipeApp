@@ -49,12 +49,12 @@
         <item name="android:fontFamily">@font/montserrat_light</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/textItemIngredient</item>
+        <item name="android:textColor">@color/textDescriptionItemCategory</item>
     </style>
 
     <style name="StyleTextItemMethod" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/montserrat_light</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
-        <item name="android:textColor">@color/textItemIngredient</item>
+        <item name="android:textColor">@color/textDescriptionItemCategory</item>
     </style>
 </resources>

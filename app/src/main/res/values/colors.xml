@@ -10,5 +10,5 @@
     <color name="itemCategoryTransparentBlack">#40000000</color>
     <color name="textTitleSectionsRecipe">#422952</color>
     <color name="textViewPortion">#626466</color>
-    <color name="textItemIngredient">#666666</color>
+    <color name="dividerItemDecoration">#F5F5F5</color>
 </resources>

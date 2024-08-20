@@ -1,11 +1,13 @@
 package com.example.recipeapp
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -57,25 +59,28 @@ class RecipeFragment : Fragment() {
         }
     }
 
-    private fun initUI(it: Recipe) {
-        binding.tvHeading.text = it.title
+    @SuppressLint("ResourceAsColor")
+    private fun initUI(recipe: Recipe) {
+        binding.tvHeading.text = recipe.title
         Glide.with(this)
-            .load("file:///android_asset/${it.imageUrl}")
+            .load("file:///android_asset/${recipe.imageUrl}")
             .into(binding.ivHeading)
         val rvIngredients = binding.rvIngredients
-        val rvIngredientsItemDecoration = MaterialDividerItemDecoration(
-            requireContext(),
+        val dividerItemDecoration = MaterialDividerItemDecoration(
+            rvIngredients.context,
             LinearLayoutManager.VERTICAL
-        )
-        rvIngredientsItemDecoration.isLastItemDecorated = false
-        rvIngredients.addItemDecoration(rvIngredientsItemDecoration)
-
+        ).apply {
+            setDividerColor(
+                ContextCompat.getColor(
+                    rvIngredients.context,
+                    R.color.dividerItemDecoration
+                )
+            )
+            dividerInsetStart = resources.getDimensionPixelSize(R.dimen.text_size_small)
+            dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.text_size_small)
+        }
+        rvIngredients.addItemDecoration(dividerItemDecoration)
         val rvMethod = binding.rvMethod
-        val rvMethodItemDecoration = MaterialDividerItemDecoration(
-            requireContext(),
-            LinearLayoutManager.VERTICAL
-        )
-        rvMethodItemDecoration.isLastItemDecorated = false
-        rvMethod.addItemDecoration(rvMethodItemDecoration)
+        rvMethod.addItemDecoration(dividerItemDecoration)
     }
 }
