@@ -31,4 +31,30 @@
         <item name="android:fontFamily">@font/montserrat_extra_light</item>
         <item name="android:textColor">@color/textDescriptionItemCategory</item>
     </style>
+
+    <style name="StyleTextViewTitleSectionsRecipe" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/montserrat_alternates_semi_bold</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/textTitleSectionsRecipe</item>
+    </style>
+
+    <style name="StyleTextViewPortion" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+        <item name="android:textSize">@dimen/margin_large</item>
+        <item name="android:textColor">@color/textViewPortion</item>
+    </style>
+
+    <style name="StyleTextItemIngredient" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/montserrat_light</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/textDescriptionItemCategory</item>
+    </style>
+
+    <style name="StyleTextItemMethod" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/montserrat_light</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textColor">@color/textDescriptionItemCategory</item>
+    </style>
 </resources>

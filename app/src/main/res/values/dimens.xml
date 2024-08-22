@@ -6,10 +6,12 @@
     <dimen name="text_size_large">20sp</dimen>
 
     <!--padding -->
+    <dimen name="padding_extra_small">4dp</dimen>
     <dimen name="padding_small">10dp</dimen>
     <dimen name="padding_medium">20dp</dimen>
 
     <!--margin -->
+
     <dimen name="margin_small">2dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="margin_large">16dp</dimen>
