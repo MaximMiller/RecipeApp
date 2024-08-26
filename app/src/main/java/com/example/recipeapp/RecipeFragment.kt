@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,6 +54,18 @@ class RecipeFragment : Fragment() {
             val listMethod = it.method
             val methodAdapter = MethodAdapter(listMethod)
             binding.rvMethod.adapter = methodAdapter
+            binding.sbCountPortion.setOnSeekBarChangeListener(object :
+                SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
+                    binding.tvCountPortion.text = "$progress"
+                    ingredientsAdapter.updateIngredients(progress)
+
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            })
             initUI(it)
         } ?: run {
             Log.e("RecipeNotFound", "Recipe object not found")

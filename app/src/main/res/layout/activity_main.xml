@@ -24,7 +24,7 @@
             style="@style/StyleNavButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_extra_small"
             android:layout_weight="1"
             android:backgroundTint="@color/btnCategories"
             android:text="@string/title_category" />
@@ -34,7 +34,7 @@
             style="@style/StyleNavButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_extra_small"
             android:layout_weight="1"
             android:backgroundTint="@color/btnFavorite"
             android:text="@string/title_favorite"

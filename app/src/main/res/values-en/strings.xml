@@ -6,4 +6,5 @@
     <string name="title_section_ingredients">Ingredients</string>
     <string name="title_portion">Portions:</string>
     <string name="title_section_cooking_method">Cooking method</string>
+    <string name="default_count_portion">1</string>
 </resources>

@@ -76,9 +76,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
+                android:text="@string/default_count_portion"
                 app:layout_constraintStart_toEndOf="@+id/tvTitlePortion"
                 app:layout_constraintTop_toTopOf="@+id/tvTitlePortion"
-                tools:text="3" />
+                tools:text="1" />
+
+            <SeekBar
+                android:id="@+id/sbCountPortion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:max="5"
+                android:progress="@string/default_count_portion"
+                app:layout_constraintTop_toBottomOf="@+id/tvCountPortion" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
