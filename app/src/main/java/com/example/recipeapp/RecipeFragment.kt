@@ -54,16 +54,11 @@ class RecipeFragment : Fragment() {
             val listMethod = it.method
             val methodAdapter = MethodAdapter(listMethod)
             binding.rvMethod.adapter = methodAdapter
-            val minPortions = 1
-            val maxPortions = 5
-            binding.sbCountPortion.max = maxPortions - minPortions // Устанавливаем максимальное значение для диапазона от 1 до 5
-            binding.sbCountPortion.progress = 0
             binding.sbCountPortion.setOnSeekBarChangeListener(object :
                 SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
-                    val currentValue = progress + minPortions
-                    binding.tvCountPortion.text = currentValue.toString()
-                    ingredientsAdapter.updateIngredients(currentValue)
+                    binding.tvCountPortion.text = progress.toString()
+                    ingredientsAdapter.updateIngredients(progress)
 
                 }
 
