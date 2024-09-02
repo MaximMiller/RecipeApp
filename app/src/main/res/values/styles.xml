@@ -57,4 +57,9 @@
         <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:textColor">@color/textDescriptionItemCategory</item>
     </style>
+
+    <style name="StyleSeekBar" parent="@android:style/Widget.SeekBar">
+        <item name="android:thumb">@drawable/shape_seekbar_thumb</item>
+        <item name="android:progressDrawable">@drawable/shape_seekbar_progress</item>
+    </style>
 </resources>
