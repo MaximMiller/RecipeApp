@@ -61,5 +61,6 @@
     <style name="StyleSeekBar" parent="@android:style/Widget.SeekBar">
         <item name="android:thumb">@drawable/shape_seekbar_thumb</item>
         <item name="android:progressDrawable">@drawable/shape_seekbar_progress</item>
+        <item name="android:thumbOffset">0dp</item>
     </style>
 </resources>
