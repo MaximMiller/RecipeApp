@@ -95,6 +95,5 @@ class RecipeFragment : Fragment() {
         rvIngredients.addItemDecoration(dividerItemDecoration)
         val rvMethod = binding.rvMethod
         rvMethod.addItemDecoration(dividerItemDecoration)
-        binding.sbCountPortion.setPadding(0,0,0,0)
     }
 }
