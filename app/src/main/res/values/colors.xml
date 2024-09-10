@@ -11,4 +11,5 @@
     <color name="textTitleSectionsRecipe">#422952</color>
     <color name="textViewPortion">#626466</color>
     <color name="dividerItemDecoration">#F5F5F5</color>
+    <color name="seekbarProgress">#A1A9F9</color>
 </resources>

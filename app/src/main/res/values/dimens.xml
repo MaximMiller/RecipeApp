@@ -17,6 +17,7 @@
     <dimen name="margin_large">16dp</dimen>
 
     <!-- sizes-->
+    <dimen name="height_small">30dp</dimen>
     <dimen name="height_large">224dp</dimen>
     <dimen name="height_medium">130dp</dimen>
 </resources>
