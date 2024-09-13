@@ -95,5 +95,13 @@ class RecipeFragment : Fragment() {
         rvIngredients.addItemDecoration(dividerItemDecoration)
         val rvMethod = binding.rvMethod
         rvMethod.addItemDecoration(dividerItemDecoration)
+        var isFavorite = false
+        val btnLike = binding.btnLike
+        btnLike.setOnClickListener {
+            isFavorite = !isFavorite
+            if (isFavorite) {
+                btnLike.setImageResource(R.drawable.ic_heart)
+            } else btnLike.setImageResource(R.drawable.ic_heart_empty)
+        }
     }
 }
