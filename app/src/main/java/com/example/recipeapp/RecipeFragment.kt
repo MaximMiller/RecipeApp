@@ -17,6 +17,7 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 
 
 class RecipeFragment : Fragment() {
+    private var isFavorite = false
     private var _binding: FragmentRecipeBinding? = null
     private val binding
         get() = _binding
@@ -39,6 +40,18 @@ class RecipeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("isFavorite", isFavorite)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (savedInstanceState != null) {
+            isFavorite = savedInstanceState.getBoolean("isFavorite", false)
+        }
     }
 
     private fun initRecycler() {
@@ -95,13 +108,13 @@ class RecipeFragment : Fragment() {
         rvIngredients.addItemDecoration(dividerItemDecoration)
         val rvMethod = binding.rvMethod
         rvMethod.addItemDecoration(dividerItemDecoration)
-        var isFavorite = false
-        val btnLike = binding.btnLike
-        btnLike.setOnClickListener {
-            isFavorite = !isFavorite
-            if (isFavorite) {
-                btnLike.setImageResource(R.drawable.ic_heart)
-            } else btnLike.setImageResource(R.drawable.ic_heart_empty)
+        binding.ibLike.apply {
+            if (isFavorite) setImageResource(R.drawable.ic_heart)
+            setOnClickListener {
+                isFavorite = !isFavorite
+                if (isFavorite) setImageResource(R.drawable.ic_heart)
+                else setImageResource(R.drawable.ic_heart_empty)
+            }
         }
     }
 }
