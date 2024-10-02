@@ -1,6 +1,7 @@
 package com.example.recipeapp
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,8 @@ import com.bumptech.glide.Glide
 import com.example.recipeapp.databinding.FragmentRecipeBinding
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
+private const val SHARED_PREFS_NAME = "recipe_prefs"
+private const val FAVORITES_KEY = "favorites"
 
 class RecipeFragment : Fragment() {
     private var isFavorite = false
@@ -109,12 +112,41 @@ class RecipeFragment : Fragment() {
         val rvMethod = binding.rvMethod
         rvMethod.addItemDecoration(dividerItemDecoration)
         binding.ibLike.apply {
-            if (isFavorite) setImageResource(R.drawable.ic_heart)
+            val favorites = getFavorites()
+            if (isFavorite) {
+                setImageResource(R.drawable.ic_heart)
+                isFavorite = true
+            } else {
+                setImageResource(R.drawable.ic_heart_empty)
+                isFavorite = false
+            }
             setOnClickListener {
                 isFavorite = !isFavorite
-                if (isFavorite) setImageResource(R.drawable.ic_heart)
-                else setImageResource(R.drawable.ic_heart_empty)
+                if (isFavorite) {
+                    setImageResource(R.drawable.ic_heart)
+                    val newFavorites = favorites.toMutableSet()
+                    newFavorites.add(recipe.id.toString())
+                    saveFavorites(newFavorites)
+                } else {
+                    setImageResource(R.drawable.ic_heart_empty)
+                    val newFavorites = favorites.toMutableSet()
+                    saveFavorites(newFavorites)
+                }
+
             }
         }
+    }
+
+    private fun saveFavorites(favorites: Set<String>) {
+        val sharedPrefs = context?.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPrefs?.edit()
+        editor?.putStringSet(FAVORITES_KEY, favorites)
+        editor?.apply()
+    }
+
+    private fun getFavorites(): MutableSet<String> {
+        val sharedPrefs = context?.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+        val favorites = sharedPrefs?.getStringSet(FAVORITES_KEY, emptySet())
+        return favorites?.toMutableSet() ?: mutableSetOf()
     }
 }
