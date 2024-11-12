@@ -16,8 +16,6 @@ import com.bumptech.glide.Glide
 import com.example.recipeapp.databinding.FragmentRecipeBinding
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
-private const val SHARED_PREFS_NAME = "recipe_prefs"
-private const val FAVORITES_KEY = "favorites"
 
 class RecipeFragment : Fragment() {
     private var isFavorite = false
@@ -25,6 +23,11 @@ class RecipeFragment : Fragment() {
     private val binding
         get() = _binding
             ?: throw IllegalAccessException("Binding for FragmentRecipeBinding most not be null")
+
+    companion object {
+        private const val SHARED_PREFS_NAME = "recipe_prefs"
+        private const val FAVORITES_KEY = "favorites"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -111,37 +114,33 @@ class RecipeFragment : Fragment() {
         rvIngredients.addItemDecoration(dividerItemDecoration)
         val rvMethod = binding.rvMethod
         rvMethod.addItemDecoration(dividerItemDecoration)
-        binding.ibLike.apply {
-            val favorites = getFavorites()
-            if (isFavorite) {
-                setImageResource(R.drawable.ic_heart)
-                isFavorite = true
-            } else {
-                setImageResource(R.drawable.ic_heart_empty)
-                isFavorite = false
-            }
-            setOnClickListener {
-                isFavorite = !isFavorite
-                if (isFavorite) {
-                    setImageResource(R.drawable.ic_heart)
-                    val newFavorites = favorites.toMutableSet()
-                    newFavorites.add(recipe.id.toString())
-                    saveFavorites(newFavorites)
-                } else {
-                    setImageResource(R.drawable.ic_heart_empty)
-                    val newFavorites = favorites.toMutableSet()
-                    saveFavorites(newFavorites)
-                }
+        val favorites = getFavorites()
+        val isFavorite = favorites.contains(recipe.id.toString())
 
+        binding.ibLike.apply {
+            setImageResource(if (isFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty)
+            setOnClickListener {
+                val newFavorites = favorites.toMutableSet()
+                if (isFavorite) {
+                    newFavorites.remove(recipe.id.toString())
+                    setImageResource(R.drawable.ic_heart_empty)
+                } else {
+                    newFavorites.add(recipe.id.toString())
+                    setImageResource(R.drawable.ic_heart)
+                }
+                saveFavorites(newFavorites)
             }
         }
     }
 
     private fun saveFavorites(favorites: Set<String>) {
         val sharedPrefs = context?.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-        val editor = sharedPrefs?.edit()
-        editor?.putStringSet(FAVORITES_KEY, favorites)
-        editor?.apply()
+        sharedPrefs?.edit()?.let { editor ->
+            with(editor) {
+                putStringSet(FAVORITES_KEY, favorites)
+                apply()
+            }
+        }
     }
 
     private fun getFavorites(): MutableSet<String> {
