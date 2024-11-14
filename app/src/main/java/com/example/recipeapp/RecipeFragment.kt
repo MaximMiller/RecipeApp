@@ -25,8 +25,8 @@ class RecipeFragment : Fragment() {
             ?: throw IllegalAccessException("Binding for FragmentRecipeBinding most not be null")
 
     companion object {
-        private const val SHARED_PREFS_NAME = "recipe_prefs"
-        private const val FAVORITES_KEY = "favorites"
+         const val SHARED_PREFS_NAME = "recipe_prefs"
+         const val FAVORITES_KEY = "favorites"
     }
 
     override fun onCreateView(
