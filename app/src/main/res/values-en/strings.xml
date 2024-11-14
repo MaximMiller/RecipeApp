@@ -3,9 +3,11 @@
     <string name="title_favorite">Favorites</string>
     <string name="title_category">Categories</string>
     <string name="iv_image_of_the_categories">This is a screenshot of the categories %s</string>
+    <string name="iv_image_of_the_favorite">This is a featured image %s</string>
     <string name="title_section_ingredients">Ingredients</string>
     <string name="title_portion">Portions:</string>
     <string name="title_section_cooking_method">Cooking method</string>
     <string name="default_count_portion">1</string>
     <string name="ic_like">Like</string>
+    <string name="no_favorite_recipes">You haven\'t added any recipes to your favorites yet</string>
 </resources>

@@ -15,6 +15,7 @@
     <dimen name="margin_small">6dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="margin_large">16dp</dimen>
+    <dimen name="margin_xlarge">202dp</dimen>
 
     <!-- sizes-->
     <dimen name="height_small">30dp</dimen>
