@@ -47,7 +47,6 @@
         android:layout_marginHorizontal="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_xlarge"
         android:text="@string/no_favorite_recipes"
-        android:textSize="18sp"
         android:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
