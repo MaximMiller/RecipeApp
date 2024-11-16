@@ -11,7 +11,7 @@ import java.io.IOException
 import java.io.InputStream
 
 class RecipesListAdapter(
-    private val dataSet: List<Recipe>,
+    private var dataSet: List<Recipe>,
 ) : RecyclerView.Adapter<RecipesListAdapter.ViewHolder>() {
     fun interface OnItemClickListener {
         fun onItemClick(recipesId: Int)
@@ -54,6 +54,11 @@ class RecipesListAdapter(
         } finally {
             inputStream?.close()
         }
+    }
+
+    fun updateRecipes(newDataSet: List<Recipe>) {
+        dataSet = newDataSet
+        notifyDataSetChanged()
     }
 
 }

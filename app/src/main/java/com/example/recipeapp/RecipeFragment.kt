@@ -24,10 +24,6 @@ class RecipeFragment : Fragment() {
         get() = _binding
             ?: throw IllegalAccessException("Binding for FragmentRecipeBinding most not be null")
 
-    companion object {
-        private const val SHARED_PREFS_NAME = "recipe_prefs"
-        private const val FAVORITES_KEY = "favorites"
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -115,7 +111,7 @@ class RecipeFragment : Fragment() {
         val rvMethod = binding.rvMethod
         rvMethod.addItemDecoration(dividerItemDecoration)
         val favorites = getFavorites()
-        val isFavorite = favorites.contains(recipe.id.toString())
+        var isFavorite = favorites.contains(recipe.id.toString())
 
         binding.ibLike.apply {
             setImageResource(if (isFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty)
@@ -123,9 +119,11 @@ class RecipeFragment : Fragment() {
                 val newFavorites = favorites.toMutableSet()
                 if (isFavorite) {
                     newFavorites.remove(recipe.id.toString())
+                    isFavorite = false
                     setImageResource(R.drawable.ic_heart_empty)
                 } else {
                     newFavorites.add(recipe.id.toString())
+                    isFavorite = true
                     setImageResource(R.drawable.ic_heart)
                 }
                 saveFavorites(newFavorites)
@@ -148,4 +146,10 @@ class RecipeFragment : Fragment() {
         val favorites = sharedPrefs?.getStringSet(FAVORITES_KEY, emptySet())
         return favorites?.toMutableSet() ?: mutableSetOf()
     }
+
+    companion object {
+        const val SHARED_PREFS_NAME = "recipe_prefs"
+        const val FAVORITES_KEY = "favorites"
+    }
+
 }

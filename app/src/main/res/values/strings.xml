@@ -3,9 +3,11 @@
     <string name="title_favorite">Избранное</string>
     <string name="title_category">Категории</string>
     <string name="iv_image_of_the_categories">Это изображение для категории %s</string>
+    <string name="iv_image_of_the_favorite">Это изображение для избранного %s</string>
     <string name="title_section_ingredients">Ингредиенты</string>
     <string name="title_portion">Порции:</string>
     <string name="title_section_cooking_method">Способ приготовления</string>
     <string name="default_count_portion">1</string>
     <string name="ic_like">Поставить лайк</string>
+    <string name="no_favorite_recipes">Вы еще не добавили ни одного рецепта в избранное</string>
 </resources>

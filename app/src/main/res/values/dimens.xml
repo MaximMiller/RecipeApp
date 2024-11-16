@@ -3,6 +3,7 @@
     <!--text_size -->
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_medium_large">18sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
 
     <!--padding -->
@@ -15,6 +16,7 @@
     <dimen name="margin_small">6dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="margin_large">16dp</dimen>
+    <dimen name="margin_xlarge">202dp</dimen>
 
     <!-- sizes-->
     <dimen name="height_small">30dp</dimen>

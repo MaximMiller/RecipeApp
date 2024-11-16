@@ -65,4 +65,10 @@
         <item name="android:paddingEnd">0dp</item>
         <item name="android:thumbOffset">0dp</item>
     </style>
+
+    <style name="StyleTextNoFavorites" parent="StyleTextItemIngredient">
+        <item name="android:textSize">@dimen/text_size_medium_large</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>
