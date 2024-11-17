@@ -1,4 +1,4 @@
-package com.example.recipeapp
+package com.example.recipeapp.ui.recipes.listrecipes
 
 import android.graphics.drawable.Drawable
 import android.util.Log
@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipeapp.R
 import com.example.recipeapp.databinding.ItemRecipesBinding
+import com.example.recipeapp.model.Recipe
 import java.io.IOException
 import java.io.InputStream
 
