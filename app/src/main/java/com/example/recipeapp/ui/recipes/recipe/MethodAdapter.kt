@@ -1,9 +1,10 @@
-package com.example.recipeapp
+package com.example.recipeapp.ui.recipes.recipe
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipeapp.R
 import com.example.recipeapp.databinding.ItemMethodBinding
 
 class MethodAdapter(
