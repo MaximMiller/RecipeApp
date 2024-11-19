@@ -20,6 +20,7 @@ class RecipeViewModel : ViewModel() {
     data class RecipeState(
         val recipe: Recipe? = null,
         val isFavorite: Boolean = false,
-        val favorites: Set<String> = emptySet()
+        val favorites: Set<String> = emptySet(),
+        val portionCount: Int = 1
     )
 }

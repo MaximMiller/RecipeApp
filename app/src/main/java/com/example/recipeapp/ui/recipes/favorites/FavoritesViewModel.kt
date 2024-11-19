@@ -6,7 +6,6 @@ import com.example.recipeapp.model.Recipe
 class FavoritesViewModel: ViewModel() {
 
     data class FavoritesState(
-        val favoriteRecipes: List<Recipe> = emptyList(),
-        val hasFavorites: Boolean = false
+        val favoriteRecipes: List<Recipe> = emptyList()
     )
 }
