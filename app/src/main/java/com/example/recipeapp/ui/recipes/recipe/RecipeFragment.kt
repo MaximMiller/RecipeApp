@@ -1,10 +1,7 @@
 package com.example.recipeapp.ui.recipes.recipe
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentRecipeBinding
-import com.example.recipeapp.model.Recipe
+import com.example.recipeapp.ui.Constants
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 
 class RecipeFragment : Fragment() {
-    private var isFavorite = false
     private var _binding: FragmentRecipeBinding? = null
     private val binding
         get() = _binding
@@ -40,10 +36,12 @@ class RecipeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.recipeState.observe(viewLifecycleOwner) { state ->
-            Log.i("tag","isFavorite: ${state.isFavorite}")
+        val recipeId = arguments?.getInt(Constants.ARG_RECIPE_DATA)
+        recipeId?.let {
+            viewModel.loadRecipe(it)
         }
-        initRecycler()
+        initUI()
+
     }
 
     override fun onDestroyView() {
@@ -51,107 +49,54 @@ class RecipeFragment : Fragment() {
         _binding = null
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean("isFavorite", isFavorite)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState != null) {
-            isFavorite = savedInstanceState.getBoolean("isFavorite", false)
-        }
-    }
-
-    private fun initRecycler() {
-        val recipe: Recipe? = if (Build.VERSION.SDK_INT >= 33) {
-            arguments?.getParcelable("arg_recipe_data", Recipe::class.java)
-        } else {
-            arguments?.getParcelable("arg_recipe_data")
-        }
-        recipe?.let {
-            val listIngredients = it.ingredients
-            val ingredientsAdapter = IngredientsAdapter(listIngredients)
-            binding.rvIngredients.adapter = ingredientsAdapter
-            val listMethod = it.method
-            val methodAdapter = MethodAdapter(listMethod)
-            binding.rvMethod.adapter = methodAdapter
-            binding.sbCountPortion.setOnSeekBarChangeListener(object :
-                SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
-                    binding.tvCountPortion.text = progress.toString()
-                    ingredientsAdapter.updateIngredients(progress)
-
-                }
-
-                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-            })
-            initUI(it)
-        } ?: run {
-            Log.e("RecipeNotFound", "Recipe object not found")
-        }
-    }
-
     @SuppressLint("ResourceAsColor")
-    private fun initUI(recipe: Recipe) {
-        binding.tvHeading.text = recipe.title
-        Glide.with(this)
-            .load("file:///android_asset/${recipe.imageUrl}")
-            .into(binding.ivHeading)
-        val rvIngredients = binding.rvIngredients
-        val dividerItemDecoration = MaterialDividerItemDecoration(
-            rvIngredients.context,
-            LinearLayoutManager.VERTICAL
-        ).apply {
-            setDividerColor(
-                ContextCompat.getColor(
-                    rvIngredients.context,
-                    R.color.dividerItemDecoration
-                )
-            )
-            dividerInsetStart = resources.getDimensionPixelSize(R.dimen.text_size_small)
-            dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.text_size_small)
-        }
-        rvIngredients.addItemDecoration(dividerItemDecoration)
-        val rvMethod = binding.rvMethod
-        rvMethod.addItemDecoration(dividerItemDecoration)
-        val favorites = getFavorites()
-        var isFavorite = favorites.contains(recipe.id.toString())
+    private fun initUI() {
+        viewModel.recipeState.observe(viewLifecycleOwner) { state ->
+            state.recipe?.let { recipe ->
+                binding.tvHeading.text = recipe.title
+                Glide.with(this)
+                    .load("file:///android_asset/${recipe.imageUrl}")
+                    .into(binding.ivHeading)
 
-        binding.ibLike.apply {
-            setImageResource(if (isFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty)
-            setOnClickListener {
-                val newFavorites = favorites.toMutableSet()
-                if (isFavorite) {
-                    newFavorites.remove(recipe.id.toString())
-                    isFavorite = false
-                    setImageResource(R.drawable.ic_heart_empty)
-                } else {
-                    newFavorites.add(recipe.id.toString())
-                    isFavorite = true
-                    setImageResource(R.drawable.ic_heart)
+                binding.rvIngredients.adapter = IngredientsAdapter(recipe.ingredients)
+                binding.rvMethod.adapter = MethodAdapter(recipe.method)
+
+                val dividerItemDecoration = MaterialDividerItemDecoration(
+                    binding.rvIngredients.context,
+                    LinearLayoutManager.VERTICAL
+                ).apply {
+                    setDividerColor(
+                        ContextCompat.getColor(
+                            binding.rvIngredients.context,
+                            R.color.dividerItemDecoration
+                        )
+                    )
+                    dividerInsetStart = resources.getDimensionPixelSize(R.dimen.text_size_small)
+                    dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.text_size_small)
                 }
-                saveFavorites(newFavorites)
+
+                binding.rvIngredients.addItemDecoration(dividerItemDecoration)
+                binding.rvMethod.addItemDecoration(dividerItemDecoration)
+
+                binding.sbCountPortion.setOnSeekBarChangeListener(object :
+                    SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
+                        binding.tvCountPortion.text = progress.toString()
+                        // Добавить обновление стейта
+                    }
+
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+                })
+
+                binding.ibLike.apply {
+                    setImageResource(if (state.isFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty)
+                    setOnClickListener {
+                        viewModel.onFavoritesClicked(recipe.id)
+                    }
+                }
             }
         }
-    }
-
-    private fun saveFavorites(favorites: Set<String>) {
-        val sharedPrefs = context?.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-        sharedPrefs?.edit()?.let { editor ->
-            with(editor) {
-                putStringSet(FAVORITES_KEY, favorites)
-                apply()
-            }
-        }
-    }
-
-    private fun getFavorites(): MutableSet<String> {
-        val sharedPrefs = context?.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-        val favorites = sharedPrefs?.getStringSet(FAVORITES_KEY, emptySet())
-        return favorites?.toMutableSet() ?: mutableSetOf()
     }
 
     companion object {
