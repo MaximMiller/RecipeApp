@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
@@ -26,6 +27,7 @@ class RecipeFragment : Fragment() {
         get() = _binding
             ?: throw IllegalAccessException("Binding for FragmentRecipeBinding most not be null")
 
+    private val viewModel: RecipeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,6 +40,9 @@ class RecipeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.recipeState.observe(viewLifecycleOwner) { state ->
+            Log.i("tag","isFavorite: ${state.isFavorite}")
+        }
         initRecycler()
     }
 
