@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentRecipeBinding
+import com.example.recipeapp.model.Recipe
 import com.example.recipeapp.ui.Constants
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
@@ -26,9 +27,7 @@ class RecipeFragment : Fragment() {
     private val viewModel: RecipeViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRecipeBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -36,12 +35,11 @@ class RecipeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val recipeId = arguments?.getInt(Constants.ARG_RECIPE_DATA)
+        val recipeId = arguments?.getInt(Constants.ARG_CATEGORY_ID)
         recipeId?.let {
             viewModel.loadRecipe(it)
         }
         initUI()
-
     }
 
     override fun onDestroyView() {
@@ -51,52 +49,64 @@ class RecipeFragment : Fragment() {
 
     @SuppressLint("ResourceAsColor")
     private fun initUI() {
+        setupObservers()
+        setupClickListenersIbLike()
+        setupRecyclerView()
+        setupSeekBar()
+    }
+
+    private fun setupObservers() {
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
             state.recipe?.let { recipe ->
-                binding.tvHeading.text = recipe.title
-                Glide.with(this)
-                    .load("file:///android_asset/${recipe.imageUrl}")
-                    .into(binding.ivHeading)
-
-                binding.rvIngredients.adapter = IngredientsAdapter(recipe.ingredients)
-                binding.rvMethod.adapter = MethodAdapter(recipe.method)
-
-                val dividerItemDecoration = MaterialDividerItemDecoration(
-                    binding.rvIngredients.context,
-                    LinearLayoutManager.VERTICAL
-                ).apply {
-                    setDividerColor(
-                        ContextCompat.getColor(
-                            binding.rvIngredients.context,
-                            R.color.dividerItemDecoration
-                        )
-                    )
-                    dividerInsetStart = resources.getDimensionPixelSize(R.dimen.text_size_small)
-                    dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.text_size_small)
-                }
-
-                binding.rvIngredients.addItemDecoration(dividerItemDecoration)
-                binding.rvMethod.addItemDecoration(dividerItemDecoration)
-
-                binding.sbCountPortion.setOnSeekBarChangeListener(object :
-                    SeekBar.OnSeekBarChangeListener {
-                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
-                        binding.tvCountPortion.text = progress.toString()
-                        // Добавить обновление стейта
-                    }
-
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-                    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-                })
-
-                binding.ibLike.apply {
-                    setImageResource(if (state.isFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty)
-                    setOnClickListener {
-                        viewModel.onFavoritesClicked(recipe.id)
-                    }
-                }
+                updateUI(recipe, state.isFavorite)
             }
         }
+    }
+
+    private fun updateUI(recipe: Recipe, isFavorite: Boolean) {
+        binding.tvHeading.text = recipe.title
+        Glide.with(this).load("file:///android_asset/${recipe.imageUrl}").into(binding.ivHeading)
+
+        binding.rvIngredients.adapter = IngredientsAdapter(recipe.ingredients)
+        binding.rvMethod.adapter = MethodAdapter(recipe.method)
+        binding.ibLike.setImageResource(if (isFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty)
+    }
+
+    private fun setupClickListenersIbLike() {
+        binding.ibLike.setOnClickListener {
+            viewModel.recipeState.value?.recipe?.let { recipe ->
+                viewModel.onFavoritesClicked(recipe.id)
+            }
+        }
+    }
+
+    private fun setupRecyclerView() {
+        val dividerItemDecoration = MaterialDividerItemDecoration(
+            binding.rvIngredients.context, LinearLayoutManager.VERTICAL
+        ).apply {
+            setDividerColor(
+                ContextCompat.getColor(
+                    binding.rvIngredients.context, R.color.dividerItemDecoration
+                )
+            )
+            dividerInsetStart = resources.getDimensionPixelSize(R.dimen.text_size_small)
+            dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.text_size_small)
+        }
+
+        binding.rvIngredients.addItemDecoration(dividerItemDecoration)
+        binding.rvMethod.addItemDecoration(dividerItemDecoration)
+    }
+
+    private fun setupSeekBar() {
+        binding.sbCountPortion.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
+                binding.tvCountPortion.text = progress.toString()
+                // TODO: Добавить обновление стейта
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
     }
 
     companion object {

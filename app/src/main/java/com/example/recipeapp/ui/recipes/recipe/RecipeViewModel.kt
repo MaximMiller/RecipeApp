@@ -19,7 +19,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     init {
         Log.i("tag", "RecipeViewModel init")
-        _recipeState.value = RecipeState(isFavorite = false)
     }
 
     fun loadRecipe(recipeId: Int) {
@@ -32,7 +31,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                 recipe = recipe,
                 isFavorite = isFavorite,
                 favorites = favorites,
-                portionCount = 1
             )
     }
 
@@ -55,12 +53,16 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         } else {
             newFavorites.add(recipeId.toString())
         }
-        _recipeState.value = currentState.copy(isFavorite = !currentState.isFavorite, favorites = newFavorites)
+        _recipeState.value =
+            currentState.copy(isFavorite = !currentState.isFavorite, favorites = newFavorites)
         saveFavorites(newFavorites)
     }
 
     private fun saveFavorites(favorites: Set<String>) {
-        val sharedPrefs = getApplication<Application>().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+        val sharedPrefs = getApplication<Application>().getSharedPreferences(
+            SHARED_PREFS_NAME,
+            Context.MODE_PRIVATE
+        )
         sharedPrefs.edit().putStringSet(FAVORITES_KEY, favorites).apply()
     }
 
