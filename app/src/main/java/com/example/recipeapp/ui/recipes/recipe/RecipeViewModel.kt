@@ -26,11 +26,13 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val recipe = STUB.getRecipeById(recipeId)
         val favorites = getFavorites()
         val isFavorite = favorites.contains(recipeId.toString())
+        val imageUrl = "file:///android_asset/${recipe?.imageUrl}"
         _recipeState.value =
             RecipeState(
                 recipe = recipe,
                 isFavorite = isFavorite,
                 favorites = favorites,
+                imageUrl = imageUrl
             )
     }
 
@@ -70,6 +72,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val recipe: Recipe? = null,
         val isFavorite: Boolean = false,
         val favorites: Set<String> = emptySet(),
-        val portionCount: Int = 1
+        val portionCount: Int = 1,
+        val imageUrl: String? = null
     )
 }
