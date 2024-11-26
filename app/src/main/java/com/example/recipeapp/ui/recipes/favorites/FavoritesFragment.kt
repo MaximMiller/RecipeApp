@@ -9,11 +9,11 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import com.example.recipeapp.ui.Constants.ARG_RECIPE_DATA
 import com.example.recipeapp.R
 import com.example.recipeapp.data.STUB
 import com.example.recipeapp.databinding.FragmentFavoritesBinding
 import com.example.recipeapp.model.Recipe
+import com.example.recipeapp.ui.Constants
 import com.example.recipeapp.ui.recipes.listrecipes.RecipesListAdapter
 import com.example.recipeapp.ui.recipes.recipe.RecipeFragment
 
@@ -71,8 +71,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun openRecipeByRecipeId(recipesId: Int) {
-        val recipeData = STUB.getRecipeById(recipesId)
-        val bundle = bundleOf(ARG_RECIPE_DATA to recipeData)
+        val bundle = bundleOf(Constants.ARG_CATEGORY_ID to recipesId)
         parentFragmentManager.commit {
             replace<RecipeFragment>(R.id.mainContainer, args = bundle)
             setReorderingAllowed(true)
