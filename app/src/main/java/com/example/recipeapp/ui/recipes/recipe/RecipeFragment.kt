@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -58,14 +59,14 @@ class RecipeFragment : Fragment() {
     private fun setupObservers() {
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
             state.recipe?.let { recipe ->
-                updateUI(recipe, state.isFavorite)
+                state.imageUrl?.let { updateUI(recipe, state.isFavorite, it) }
             }
         }
     }
 
-    private fun updateUI(recipe: Recipe, isFavorite: Boolean) {
+    private fun updateUI(recipe: Recipe, isFavorite: Boolean, imageUrl:String) {
         binding.tvHeading.text = recipe.title
-        Glide.with(this).load("file:///android_asset/${recipe.imageUrl}").into(binding.ivHeading)
+        Glide.with(this).load(imageUrl).into(binding.ivHeading)
 
         binding.rvIngredients.adapter = IngredientsAdapter(recipe.ingredients)
         binding.rvMethod.adapter = MethodAdapter(recipe.method)
