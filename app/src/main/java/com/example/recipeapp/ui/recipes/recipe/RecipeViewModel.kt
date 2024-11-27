@@ -2,7 +2,6 @@ package com.example.recipeapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,10 +15,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     private val _recipeState = MutableLiveData<RecipeState>()
     val recipeState: LiveData<RecipeState>
         get() = _recipeState
-
-    init {
-        Log.i("tag", "RecipeViewModel init")
-    }
 
     fun loadRecipe(recipeId: Int) {
         // TODO: load from network
@@ -66,6 +61,12 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             Context.MODE_PRIVATE
         )
         sharedPrefs.edit().putStringSet(FAVORITES_KEY, favorites).apply()
+    }
+
+    fun onPortionsCountChanged(newPortionCount: Int) {
+        val currentState = _recipeState.value ?: return
+        _recipeState.value = currentState.copy(portionCount = newPortionCount)
+
     }
 
     data class RecipeState(

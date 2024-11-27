@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -26,6 +25,7 @@ class RecipeFragment : Fragment() {
             ?: throw IllegalAccessException("Binding for FragmentRecipeBinding most not be null")
 
     private val viewModel: RecipeViewModel by viewModels()
+    private lateinit var ingredientsAdapter: IngredientsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -59,16 +59,23 @@ class RecipeFragment : Fragment() {
     private fun setupObservers() {
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
             state.recipe?.let { recipe ->
-                state.imageUrl?.let { updateUI(recipe, state.isFavorite, it) }
+                state.imageUrl?.let { imageUrl ->
+                    updateUI(recipe, state.isFavorite, imageUrl)
+                }
             }
         }
     }
 
-    private fun updateUI(recipe: Recipe, isFavorite: Boolean, imageUrl:String) {
+    private fun updateUI(recipe: Recipe, isFavorite: Boolean, imageUrl: String) {
         binding.tvHeading.text = recipe.title
         Glide.with(this).load(imageUrl).into(binding.ivHeading)
 
-        binding.rvIngredients.adapter = IngredientsAdapter(recipe.ingredients)
+        if (!::ingredientsAdapter.isInitialized) {
+            ingredientsAdapter = IngredientsAdapter(recipe.ingredients)
+            binding.rvIngredients.adapter = ingredientsAdapter
+        }
+        ingredientsAdapter.updateIngredients(viewModel.recipeState.value?.portionCount ?: 1)
+
         binding.rvMethod.adapter = MethodAdapter(recipe.method)
         binding.ibLike.setImageResource(if (isFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty)
     }
@@ -100,9 +107,19 @@ class RecipeFragment : Fragment() {
 
     private fun setupSeekBar() {
         binding.sbCountPortion.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            private var lastProgress = 1
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
                 binding.tvCountPortion.text = progress.toString()
-                // TODO: Добавить обновление стейта
+                if (progress != lastProgress) {
+                    val currentState = viewModel.recipeState.value
+                    currentState?.let {
+                        (binding.rvIngredients.adapter as? IngredientsAdapter)?.updateIngredients(
+                            progress
+                        )
+                        viewModel.onPortionsCountChanged(progress)
+                        lastProgress = progress
+                    }
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
