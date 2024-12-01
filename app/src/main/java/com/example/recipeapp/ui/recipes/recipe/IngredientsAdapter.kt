@@ -12,11 +12,12 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 
 class IngredientsAdapter(
-    private val dataSet: List<Ingredient>,
+    private var dataSet: List<Ingredient>,
 ) : RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
     private var quantity = 1
     @SuppressLint("NotifyDataSetChanged")
-    fun updateIngredients(progress: Int) {
+    fun updateIngredients(newDataSet: List<Ingredient>, progress: Int) {
+        dataSet = newDataSet
         quantity = progress
         notifyDataSetChanged()
     }

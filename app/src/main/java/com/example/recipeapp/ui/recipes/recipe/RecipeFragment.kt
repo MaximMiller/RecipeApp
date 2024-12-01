@@ -59,24 +59,23 @@ class RecipeFragment : Fragment() {
     private fun setupObservers() {
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
             state.recipe?.let { recipe ->
-                state.imageUrl?.let { imageUrl ->
-                    updateUI(recipe, state.isFavorite, imageUrl)
-                }
+                updateUI(recipe, state.isFavorite, state.portionCount)
             }
         }
     }
 
-    private fun updateUI(recipe: Recipe, isFavorite: Boolean, imageUrl: String) {
+
+    private fun updateUI(recipe: Recipe, isFavorite: Boolean, portionCount: Int) {
         binding.tvHeading.text = recipe.title
-        Glide.with(this).load(imageUrl).into(binding.ivHeading)
+        Glide.with(this).load("file:///android_asset/${recipe.imageUrl}").into(binding.ivHeading)
 
-        if (!::ingredientsAdapter.isInitialized) {
-            ingredientsAdapter = IngredientsAdapter(recipe.ingredients)
-            binding.rvIngredients.adapter = ingredientsAdapter
-        }
-        ingredientsAdapter.updateIngredients(viewModel.recipeState.value?.portionCount ?: 1)
-
+        binding.tvCountPortion.text = portionCount.toString()
         binding.rvMethod.adapter = MethodAdapter(recipe.method)
+
+        ingredientsAdapter = IngredientsAdapter(recipe.ingredients)
+        ingredientsAdapter.updateIngredients(recipe.ingredients, portionCount)
+        binding.rvIngredients.adapter = ingredientsAdapter
+
         binding.ibLike.setImageResource(if (isFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty)
     }
 
@@ -107,19 +106,8 @@ class RecipeFragment : Fragment() {
 
     private fun setupSeekBar() {
         binding.sbCountPortion.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            private var lastProgress = 1
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
-                binding.tvCountPortion.text = progress.toString()
-                if (progress != lastProgress) {
-                    val currentState = viewModel.recipeState.value
-                    currentState?.let {
-                        (binding.rvIngredients.adapter as? IngredientsAdapter)?.updateIngredients(
-                            progress
-                        )
-                        viewModel.onPortionsCountChanged(progress)
-                        lastProgress = progress
-                    }
-                }
+                viewModel.onPortionsCountChanged(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
