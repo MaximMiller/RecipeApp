@@ -72,10 +72,7 @@ class RecipeFragment : Fragment() {
         binding.tvCountPortion.text = portionCount.toString()
         binding.rvMethod.adapter = MethodAdapter(recipe.method)
 
-        ingredientsAdapter = IngredientsAdapter(recipe.ingredients)
         ingredientsAdapter.updateIngredients(recipe.ingredients, portionCount)
-        binding.rvIngredients.adapter = ingredientsAdapter
-
         binding.ibLike.setImageResource(if (isFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty)
     }
 
@@ -99,9 +96,10 @@ class RecipeFragment : Fragment() {
             dividerInsetStart = resources.getDimensionPixelSize(R.dimen.text_size_small)
             dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.text_size_small)
         }
-
         binding.rvIngredients.addItemDecoration(dividerItemDecoration)
         binding.rvMethod.addItemDecoration(dividerItemDecoration)
+        ingredientsAdapter = IngredientsAdapter(emptyList())
+        binding.rvIngredients.adapter = ingredientsAdapter
     }
 
     private fun setupSeekBar() {
