@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -26,6 +25,7 @@ class RecipeFragment : Fragment() {
             ?: throw IllegalAccessException("Binding for FragmentRecipeBinding most not be null")
 
     private val viewModel: RecipeViewModel by viewModels()
+    private lateinit var ingredientsAdapter: IngredientsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -59,17 +59,20 @@ class RecipeFragment : Fragment() {
     private fun setupObservers() {
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
             state.recipe?.let { recipe ->
-                state.imageUrl?.let { updateUI(recipe, state.isFavorite, it) }
+                updateUI(recipe, state.isFavorite, state.portionCount)
             }
         }
     }
 
-    private fun updateUI(recipe: Recipe, isFavorite: Boolean, imageUrl:String) {
-        binding.tvHeading.text = recipe.title
-        Glide.with(this).load(imageUrl).into(binding.ivHeading)
 
-        binding.rvIngredients.adapter = IngredientsAdapter(recipe.ingredients)
+    private fun updateUI(recipe: Recipe, isFavorite: Boolean, portionCount: Int) {
+        binding.tvHeading.text = recipe.title
+        Glide.with(this).load("file:///android_asset/${recipe.imageUrl}").into(binding.ivHeading)
+
+        binding.tvCountPortion.text = portionCount.toString()
         binding.rvMethod.adapter = MethodAdapter(recipe.method)
+
+        ingredientsAdapter.updateIngredients(recipe.ingredients, portionCount)
         binding.ibLike.setImageResource(if (isFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty)
     }
 
@@ -93,16 +96,16 @@ class RecipeFragment : Fragment() {
             dividerInsetStart = resources.getDimensionPixelSize(R.dimen.text_size_small)
             dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.text_size_small)
         }
-
         binding.rvIngredients.addItemDecoration(dividerItemDecoration)
         binding.rvMethod.addItemDecoration(dividerItemDecoration)
+        ingredientsAdapter = IngredientsAdapter(emptyList())
+        binding.rvIngredients.adapter = ingredientsAdapter
     }
 
     private fun setupSeekBar() {
         binding.sbCountPortion.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
-                binding.tvCountPortion.text = progress.toString()
-                // TODO: Добавить обновление стейта
+                viewModel.onPortionsCountChanged(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
