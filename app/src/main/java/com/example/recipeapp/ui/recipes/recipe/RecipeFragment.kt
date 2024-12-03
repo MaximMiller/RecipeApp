@@ -26,8 +26,8 @@ class RecipeFragment : Fragment() {
             ?: throw IllegalAccessException("Binding for FragmentRecipeBinding most not be null")
 
     private val viewModel: RecipeViewModel by viewModels()
-    private lateinit var ingredientsAdapter: IngredientsAdapter
-    private lateinit var methodAdapter: MethodAdapter
+    private var ingredientsAdapter: IngredientsAdapter = IngredientsAdapter(emptyList())
+    private var methodAdapter: MethodAdapter = MethodAdapter(emptyList())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -72,8 +72,7 @@ class RecipeFragment : Fragment() {
         Glide.with(this).load("file:///android_asset/${recipe.imageUrl}").into(binding.ivHeading)
 
         binding.tvCountPortion.text = portionCount.toString()
-        methodAdapter.dataSet = recipe.method
-
+        methodAdapter.updateMethod(recipe.method)
         ingredientsAdapter.updateIngredients(recipe.ingredients, portionCount)
         binding.ibLike.setImageResource(if (isFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty)
     }
@@ -101,10 +100,7 @@ class RecipeFragment : Fragment() {
         binding.rvIngredients.addItemDecoration(dividerItemDecoration)
         binding.rvMethod.addItemDecoration(dividerItemDecoration)
 
-        ingredientsAdapter = IngredientsAdapter(emptyList())
         binding.rvIngredients.adapter = ingredientsAdapter
-
-        methodAdapter = MethodAdapter(emptyList())
         binding.rvMethod.adapter = methodAdapter
     }
 
