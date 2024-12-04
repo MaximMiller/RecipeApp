@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,7 +26,8 @@ class RecipeFragment : Fragment() {
             ?: throw IllegalAccessException("Binding for FragmentRecipeBinding most not be null")
 
     private val viewModel: RecipeViewModel by viewModels()
-    private lateinit var ingredientsAdapter: IngredientsAdapter
+    private var ingredientsAdapter: IngredientsAdapter = IngredientsAdapter(emptyList())
+    private var methodAdapter: MethodAdapter = MethodAdapter(emptyList())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -70,8 +72,7 @@ class RecipeFragment : Fragment() {
         Glide.with(this).load("file:///android_asset/${recipe.imageUrl}").into(binding.ivHeading)
 
         binding.tvCountPortion.text = portionCount.toString()
-        binding.rvMethod.adapter = MethodAdapter(recipe.method)
-
+        methodAdapter.updateMethod(recipe.method)
         ingredientsAdapter.updateIngredients(recipe.ingredients, portionCount)
         binding.ibLike.setImageResource(if (isFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty)
     }
@@ -98,19 +99,30 @@ class RecipeFragment : Fragment() {
         }
         binding.rvIngredients.addItemDecoration(dividerItemDecoration)
         binding.rvMethod.addItemDecoration(dividerItemDecoration)
-        ingredientsAdapter = IngredientsAdapter(emptyList())
+
         binding.rvIngredients.adapter = ingredientsAdapter
+        binding.rvMethod.adapter = methodAdapter
     }
 
     private fun setupSeekBar() {
-        binding.sbCountPortion.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
-                viewModel.onPortionsCountChanged(progress)
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        binding.sbCountPortion.setOnSeekBarChangeListener(PortionSeekBarListener { progress ->
+            viewModel.onPortionsCountChanged(progress)
         })
+    }
+
+    open class PortionSeekBarListener(
+        val onChangeIngredients: (Int) -> Unit
+    ) : OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
+            onChangeIngredients(progress)
+        }
+
+        override fun onStartTrackingTouch(p0: SeekBar?) {
+        }
+
+        override fun onStopTrackingTouch(p0: SeekBar?) {
+        }
+
     }
 
     companion object {
