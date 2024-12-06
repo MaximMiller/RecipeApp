@@ -1,16 +1,13 @@
 package com.example.recipeapp.ui.recipes.listrecipes
 
-import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.ItemRecipesBinding
 import com.example.recipeapp.model.Recipe
-import java.io.IOException
-import java.io.InputStream
 
 class RecipesListAdapter(
     private var dataSet: List<Recipe>,
@@ -45,17 +42,9 @@ class RecipesListAdapter(
         val recipesId = dataSet[position].id
         holder.cvItemRecipes.setOnClickListener { itemClickListener?.onItemClick(recipesId) }
         holder.tvHeadingTitleRecipes.text = dataSet[position].title
-        var inputStream: InputStream? = null
-        try {
-            inputStream =
-                holder.itemView.context?.assets?.open(dataSet[position].imageUrl)
-            val drawable = Drawable.createFromStream(inputStream, null)
-            holder.ivRecipesImage.setImageDrawable(drawable)
-        } catch (e: IOException) {
-            Log.e("AssetsHelper", "Error loading asset file", e)
-        } finally {
-            inputStream?.close()
-        }
+        val imageUrl = dataSet[position].imageUrl
+        Glide.with(holder.itemView.context).load("file:///android_asset/$imageUrl")
+            .into(holder.ivRecipesImage)
     }
 
     fun updateRecipes(newDataSet: List<Recipe>) {
