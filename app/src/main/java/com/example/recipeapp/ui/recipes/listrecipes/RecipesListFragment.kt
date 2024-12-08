@@ -1,6 +1,5 @@
 package com.example.recipeapp.ui.recipes.listrecipes
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,37 +9,46 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import com.example.recipeapp.ui.Constants
+import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.example.recipeapp.R
-import com.example.recipeapp.data.STUB
 import com.example.recipeapp.databinding.FragmentListRecipesBinding
+import com.example.recipeapp.model.Category
+import com.example.recipeapp.model.Recipe
 import com.example.recipeapp.ui.Constants.ARG_CATEGORY_ID
 import com.example.recipeapp.ui.recipes.recipe.RecipeFragment
-import java.io.IOException
-import java.io.InputStream
 
 class RecipesListFragment : Fragment() {
     private var _binding: FragmentListRecipesBinding? = null
     private val binding
         get() = _binding
             ?: throw IllegalAccessException("Binding for FragmentListRecipesBinding most not be null")
-    private var categoryId: Int? = null
-    private var categoryName: String? = null
-    private var categoryImageUrl: String? = null
+    private val viewModel: RecipeListViewModel by viewModels()
+    private var adapter: RecipesListAdapter = RecipesListAdapter(emptyList())
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentListRecipesBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initBundleData()
-        initRecycler()
+        val categoryId = arguments?.getInt(ARG_CATEGORY_ID) ?: return
+        viewModel.initBundleData(categoryId)
+        initObservers()
+    }
+
+    private fun initObservers() {
+        viewModel.recipesListState.observe(viewLifecycleOwner) { state ->
+            state.category?.let { updateUI(state.recipes, it) }
+        }
+    }
+
+    private fun updateUI(recipes: List<Recipe>, category: Category) {
+        binding.tvHeading.text = category.title
+        Glide.with(this).load("file:///android_asset/${category.imageUrl}").into(binding.ivHeading)
+        initRecycler(recipes)
     }
 
     override fun onDestroyView() {
@@ -48,41 +56,19 @@ class RecipesListFragment : Fragment() {
         _binding = null
     }
 
-    private fun initBundleData() {
-        arguments?.let { argument ->
-            categoryId = argument.getInt(Constants.ARG_CATEGORY_ID)
-            categoryName = argument.getString(Constants.ARG_CATEGORY_NAME) ?: ""
-            categoryImageUrl =
-                argument.getString(Constants.ARG_CATEGORY_IMAGE_URI) ?: ""
-
-            binding.tvHeading.text = categoryName
-            var inputStream: InputStream? = null
-            try {
-                inputStream =
-                    categoryImageUrl?.let { view?.context?.assets?.open(it) }
-                val drawable = Drawable.createFromStream(inputStream, null)
-                binding.ivHeading.setImageDrawable(drawable)
-            } catch (e: IOException) {
-                Log.e("AssetsHelper", "Error loading asset file", e)
-            } finally {
-                inputStream?.close()
+    private fun initRecycler(recipes: List<Recipe>) {
+        if (recipes.isNotEmpty()) {
+            adapter.updateRecipes(recipes)
+            if (binding.rvRecipesBurgers.adapter == null) {
+                binding.rvRecipesBurgers.adapter = adapter
             }
-        } ?: run {
-            Log.e("BundleError", "Arguments are null")
-        }
-    }
-
-    private fun initRecycler() {
-        categoryId?.let { idCategory ->
-            val adapter = RecipesListAdapter(STUB.getRecipesByCategoryId(idCategory))
-            binding.rvRecipesBurgers.adapter = adapter
             adapter.setOnClickListener(object : RecipesListAdapter.OnItemClickListener {
                 override fun onItemClick(recipesId: Int) {
                     openRecipeByRecipeId(recipesId)
                 }
             })
-        } ?: run {
-            Log.e("RecyclerError", "Category ID is null")
+        } else {
+            Log.e("RecyclerError", "No recipes found for this category")
         }
     }
 

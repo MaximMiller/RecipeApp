@@ -8,12 +8,13 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.viewModels
 import com.example.recipeapp.ui.Constants.ARG_CATEGORY_ID
 import com.example.recipeapp.ui.Constants.ARG_CATEGORY_IMAGE_URI
 import com.example.recipeapp.ui.Constants.ARG_CATEGORY_NAME
 import com.example.recipeapp.R
-import com.example.recipeapp.data.STUB
 import com.example.recipeapp.databinding.FragmentListCategoriesBinding
+import com.example.recipeapp.model.Category
 import com.example.recipeapp.ui.recipes.listrecipes.RecipesListFragment
 
 class CategoriesListFragment : Fragment() {
@@ -22,7 +23,8 @@ class CategoriesListFragment : Fragment() {
     private val binding
         get() = _binding
             ?: throw IllegalAccessException("Binding for FragmentListCategoriesBinding most not be null")
-
+    private val viewModel: CategoriesListViewModel by viewModels()
+    private var adapter: CategoriesListAdapter = CategoriesListAdapter(emptyList())
 
 
     override fun onCreateView(
@@ -38,7 +40,13 @@ class CategoriesListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initRecycler()
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
+        viewModel.categories.observe(viewLifecycleOwner) { categories ->
+            initRecycler(categories)
+        }
     }
 
     override fun onDestroyView() {
@@ -46,9 +54,9 @@ class CategoriesListFragment : Fragment() {
         _binding = null
     }
 
-    private fun initRecycler() {
-        val adapter = CategoriesListAdapter(STUB.getCategories())
+    private fun initRecycler(categories: List<Category>) {
         binding.rvCategories.adapter = adapter
+        adapter.updateCategories(categories)
         adapter.setOnClickListener(object : CategoriesListAdapter.OnItemClickListener {
             override fun onItemClick(categoryId: Int) {
                 openRecipesByCategoryId(categoryId)
@@ -57,7 +65,7 @@ class CategoriesListFragment : Fragment() {
     }
 
     private fun openRecipesByCategoryId(categoryId: Int) {
-        val category = STUB.getCategories().find { it.id == categoryId }
+        val category = viewModel.getCategoryById(categoryId)
         val categoryName = category?.title
         val categoryImageUrl = category?.imageUrl
         val bundle = bundleOf(
