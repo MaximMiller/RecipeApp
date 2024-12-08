@@ -1,5 +1,6 @@
 package com.example.recipeapp.ui.recipes.listrecipes
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,7 @@ class RecipesListAdapter(
             .into(holder.ivRecipesImage)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateRecipes(newDataSet: List<Recipe>) {
         dataSet = newDataSet
         notifyDataSetChanged()

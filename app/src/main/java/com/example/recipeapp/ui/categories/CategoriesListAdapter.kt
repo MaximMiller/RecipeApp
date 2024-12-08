@@ -1,5 +1,6 @@
 package com.example.recipeapp.ui.categories
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,7 +17,7 @@ import java.io.IOException
 import java.io.InputStream
 
 class CategoriesListAdapter(
-    private val dataSet: List<Category>,
+    private var dataSet: List<Category>,
 ) : RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
     fun interface OnItemClickListener {
         fun onItemClick(categoryId: Int)
@@ -65,5 +66,9 @@ class CategoriesListAdapter(
         }
     }
 
-
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateCategories(newCategories: List<Category>) {
+        dataSet = newCategories
+        notifyDataSetChanged()
+    }
 }

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.example.recipeapp.ui.Constants.ARG_CATEGORY_ID
 import com.example.recipeapp.ui.Constants.ARG_CATEGORY_IMAGE_URI
 import com.example.recipeapp.ui.Constants.ARG_CATEGORY_NAME
@@ -25,6 +24,7 @@ class CategoriesListFragment : Fragment() {
         get() = _binding
             ?: throw IllegalAccessException("Binding for FragmentListCategoriesBinding most not be null")
     private val viewModel: CategoriesListViewModel by viewModels()
+    private var adapter: CategoriesListAdapter = CategoriesListAdapter(emptyList())
 
 
     override fun onCreateView(
@@ -55,8 +55,8 @@ class CategoriesListFragment : Fragment() {
     }
 
     private fun initRecycler(categories: List<Category>) {
-        val adapter = CategoriesListAdapter(categories)
         binding.rvCategories.adapter = adapter
+        adapter.updateCategories(categories)
         adapter.setOnClickListener(object : CategoriesListAdapter.OnItemClickListener {
             override fun onItemClick(categoryId: Int) {
                 openRecipesByCategoryId(categoryId)
