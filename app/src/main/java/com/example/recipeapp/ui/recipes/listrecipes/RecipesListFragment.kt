@@ -74,7 +74,7 @@ class RecipesListFragment : Fragment() {
         val bundle = bundleOf(
             ARG_CATEGORY_ID to recipesId,
         )
-        findNavController().navigate(R.id.recipeFragment, bundle)
+        findNavController().navigate(R.id.action_recipesListFragment_to_recipeFragment, bundle)
     }
 
 }

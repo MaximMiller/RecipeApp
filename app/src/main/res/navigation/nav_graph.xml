@@ -7,15 +7,27 @@
     <fragment
         android:id="@+id/recipesListFragment"
         android:name="com.example.recipeapp.ui.recipes.listrecipes.RecipesListFragment"
-        android:label="RecipesListFragment" />
+        android:label="RecipesListFragment" >
+        <action
+            android:id="@+id/action_recipesListFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.example.recipeapp.ui.recipes.favorites.FavoritesFragment"
-        android:label="FavoritesFragment" />
+        android:label="FavoritesFragment" >
+        <action
+            android:id="@+id/action_favoritesFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/categoriesListFragment"
         android:name="com.example.recipeapp.ui.categories.CategoriesListFragment"
-        android:label="CategoriesListFragment" />
+        android:label="CategoriesListFragment" >
+        <action
+            android:id="@+id/action_categoriesListFragment_to_recipesListFragment"
+            app:destination="@id/recipesListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/recipeFragment"
         android:name="com.example.recipeapp.ui.recipes.recipe.RecipeFragment"

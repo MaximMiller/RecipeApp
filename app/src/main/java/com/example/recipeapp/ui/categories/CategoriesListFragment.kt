@@ -71,7 +71,7 @@ class CategoriesListFragment : Fragment() {
             ARG_CATEGORY_NAME to categoryName,
             ARG_CATEGORY_IMAGE_URI to categoryImageUrl
         )
-        findNavController().navigate(R.id.recipesListFragment, bundle)
+        findNavController().navigate(R.id.action_categoriesListFragment_to_recipesListFragment, bundle)
     }
 }
 
