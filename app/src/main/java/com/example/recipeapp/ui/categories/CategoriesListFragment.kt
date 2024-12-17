@@ -6,16 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.recipeapp.ui.Constants.ARG_CATEGORY_ID
 import com.example.recipeapp.ui.Constants.ARG_CATEGORY_IMAGE_URI
 import com.example.recipeapp.ui.Constants.ARG_CATEGORY_NAME
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentListCategoriesBinding
 import com.example.recipeapp.model.Category
-import com.example.recipeapp.ui.recipes.listrecipes.RecipesListFragment
 
 class CategoriesListFragment : Fragment() {
     private var currentCategory: String = "Default Category"
@@ -73,11 +71,7 @@ class CategoriesListFragment : Fragment() {
             ARG_CATEGORY_NAME to categoryName,
             ARG_CATEGORY_IMAGE_URI to categoryImageUrl
         )
-        parentFragmentManager.commit {
-            replace<RecipesListFragment>(R.id.mainContainer, args = bundle)
-            setReorderingAllowed(true)
-            addToBackStack(null)
-        }
+        findNavController().navigate(R.id.action_categoriesListFragment_to_recipesListFragment, bundle)
     }
 }
 
