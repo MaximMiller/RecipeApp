@@ -10,12 +10,12 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentRecipeBinding
 import com.example.recipeapp.model.Recipe
-import com.example.recipeapp.ui.Constants
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 
@@ -28,6 +28,7 @@ class RecipeFragment : Fragment() {
     private val viewModel: RecipeViewModel by viewModels()
     private var ingredientsAdapter: IngredientsAdapter = IngredientsAdapter(emptyList())
     private var methodAdapter: MethodAdapter = MethodAdapter(emptyList())
+    private val args: RecipeFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -38,8 +39,8 @@ class RecipeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val recipeId = arguments?.getInt(Constants.ARG_CATEGORY_ID)
-        recipeId?.let {
+        val recipeId = args.recipeId
+        recipeId.let {
             viewModel.loadRecipe(it)
         }
         initUI()
