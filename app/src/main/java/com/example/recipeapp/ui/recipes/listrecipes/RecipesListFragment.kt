@@ -5,12 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentListRecipesBinding
 import com.example.recipeapp.model.Category
 import com.example.recipeapp.model.Recipe
@@ -71,10 +69,8 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun openRecipeByRecipeId(recipesId: Int) {
-        val bundle = bundleOf(
-            ARG_CATEGORY_ID to recipesId,
-        )
-        findNavController().navigate(R.id.action_recipesListFragment_to_recipeFragment, bundle)
+        val action = RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipesId)
+        findNavController().navigate(action)
     }
 
 }
